@@ -1,0 +1,66 @@
+{
+  "output": "/Users/qping/test",
+  "copyright":{
+    "author": "qping",
+    "date": "2019-08-07"
+  },
+//  // 展示table变量的结构
+//  "table":{
+//    "catalog": null,
+//    "schema": null,
+//    "name": null,
+//    "alias": null,
+//    "type": null,
+//    "comment": null,
+//    "primaryKeys": [{
+//      "name": null,
+//      "seq": 0
+//    }],
+//    "columns": [{
+//      "name": null,
+//      "alias": null,
+//      "type": null,
+//      "comment": null,
+//      "size": 0,
+//      "digits": 0,
+//      "isPrimaryKey": false,
+//      "javaType": "",
+//      "javaImport": ""
+//    }]
+//  },
+  "javas":{
+    "basePath": "/java",
+    "basePackage": "me.qping.spider",
+    "ignoreTableName": ["t_", "tb_", "tbl_", "table_", "v_", "vw_", "view_"],
+    "ignoreColumnName": ["f_", "c_", "col_"],
+    "list" : [
+      {
+        "fileTpl": "BeanPK",
+        "fileName": "${table.alias}PK.java",
+        "javaPackage": "bean",
+        "condition": "@.jpa.PrimaryKeyCondition"
+      },
+      {
+        "fileTpl": "Bean",
+        "fileName": "${table.alias}.java",
+        "javaPackage": "bean"
+      },
+      {
+        "fileTpl": "Dao",
+        "fileName": "${table.alias}Dao.java",
+        "javaPackage": "dao"
+      },
+      {
+        "fileTpl": "Service",
+        "fileName": "${table.alias}Service.java",
+        "javaPackage": "service"
+      },
+      {
+        "fileTpl": "RestController",
+        "fileName": "${table.alias}Controller.java",
+        "javaPackage": "controller"
+      }
+    ]
+  }
+
+}
