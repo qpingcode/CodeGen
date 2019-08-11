@@ -7,8 +7,6 @@
 .settings/
 
 # Build
-build/
-build-*/
 target/
 
 # Models
