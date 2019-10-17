@@ -4,30 +4,6 @@
     "author": "qping",
     "date": "2019-08-07"
   },
-//  // 展示table变量的结构
-//  "table":{
-//    "catalog": null,
-//    "schema": null,
-//    "name": null,
-//    "alias": null,
-//    "type": null,
-//    "comment": null,
-//    "primaryKeys": [{
-//      "name": null,
-//      "seq": 0
-//    }],
-//    "columns": [{
-//      "name": null,
-//      "alias": null,
-//      "type": null,
-//      "comment": null,
-//      "size": 0,
-//      "digits": 0,
-//      "isPrimaryKey": false,
-//      "javaType": "",
-//      "javaImport": ""
-//    }]
-//  },
   "javas":{
     "basePath": "/java",
     "basePackage": "com.rxthinking.dr",
