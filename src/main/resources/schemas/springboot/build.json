@@ -6,7 +6,7 @@
   },
   "javas":{
     "basePath": "/java",
-    "basePackage": "com.rxthinking.dr",
+    "basePackage": "com.test.proj",
     "ignoreTableName": ["t_", "tb_", "tbl_", "table_", "v_", "vw_", "view_"],
     "ignoreColumnName": ["f_", "c_", "col_"],
     "list" : [
