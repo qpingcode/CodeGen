@@ -14,12 +14,15 @@ DataBaseMetaData metadata = DataBaseMetaData.builder()
 ```
 
 第二步：确定需要转成 javaBean 的表
+
 TableMeta tableMeta = metadata.analyze("card_report");
 
 第三步：确定代码模版，现定义了 springboot 的代码模版，可自定义
+
 String schemaName = "springboot";
 
 第四步：修改build.json
+
 - output 最终文件生成目录
 - javas.basePath 基础包名，如: com.test.proj
 
