@@ -11,6 +11,7 @@ import me.qping.utils.database.metadata.bean.ColumnMeta;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName JavaGenerator
@@ -39,6 +40,7 @@ public class JavaGenerator {
         Map dataModel = new HashMap<>();
         dataModel.put("table", config.getTable());
         dataModel.put("java", javaFile);
+        dataModel.put("javaImports", config.getTable().getColumns().stream().map(v-> v.getJavaImport()).collect(Collectors.toSet()));
         dataModel.put("javaRef", javaFilesToMap(config.getJavas()));
         dataModel.put("copyright", config.getCopyright());
 

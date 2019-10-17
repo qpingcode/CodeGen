@@ -3,6 +3,8 @@ package me.qping.utils.codegen.bean.build;
 import lombok.Data;
 import me.qping.utils.database.metadata.bean.TableMeta;
 
+import java.util.Set;
+
 /**
  * @ClassName BuildConfig
  * @Author qping

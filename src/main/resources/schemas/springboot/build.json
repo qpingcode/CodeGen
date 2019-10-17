@@ -30,7 +30,7 @@
 //  },
   "javas":{
     "basePath": "/java",
-    "basePackage": "me.qping.spider",
+    "basePackage": "com.rxthinking.dr",
     "ignoreTableName": ["t_", "tb_", "tbl_", "table_", "v_", "vw_", "view_"],
     "ignoreColumnName": ["f_", "c_", "col_"],
     "list" : [

@@ -13,6 +13,9 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName CodeGenUtil
@@ -26,10 +29,10 @@ public class CodeGenUtil {
 
         // 获取数据表元数据
         DataBaseMetaData metadata = DataBaseMetaData.builder()
-                .mysql("localhost", "3306", "spider", "root", "root")
+                .mysql("localhost", "3306", "databaseName", "username", "password")
                 .build();
 
-        TableMeta tableMeta = metadata.analyze("spider_detail");
+        TableMeta tableMeta = metadata.analyze("card_report_history");
 
         // 转换build.json
         String schemaName = "springboot";

@@ -2,10 +2,10 @@ package ${java.javaPackage};
 
 import lombok.Data;
 import javax.persistence.*;
-<#list table.columns as column>
-    <#if column.javaImport??>
+<#list javaImports as javaImport>
+    <#if javaImport??>
         <@align>
-            ${column.javaImport}
+            ${javaImport}
         </@align>
     </#if>
 </#list>
