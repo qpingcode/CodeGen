@@ -1,17 +1,17 @@
-package ${java.javaPackage};
+package ${java.file.javaPackage};
 
 import lombok.Data;
 import javax.persistence.*;
-<#list table.columns as column>
-    <#if column.javaImport??>
+<#list java.importPackages as package>
+    <#if package??>
         <@align>
-            ${column.javaImport}
+            import ${package};
         </@align>
     </#if>
 </#list>
 
 /**
- * @ClassName ${java.javaName!''}
+ * @ClassName ${java.file.javaName!''}
  * @Description ${table.comment!''}
  * @Author ${copyright.author!''}
  * @Date ${copyright.date!''}
@@ -20,7 +20,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "${table.name!''}")
 @Data
-public class ${java.javaName!''} {
+public class ${java.file.javaName!''} {
 
     <#list table.columns as column>
         <#if column.primaryKey == true>

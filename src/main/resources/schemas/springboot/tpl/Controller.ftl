@@ -1,6 +1,6 @@
-package ${java.javaPackage};
+package ${java.file.javaPackage};
 
-import ${javaRef.service.javaPackage}.${javaRef.service.javaName};
+import ${java.refs.Service.javaPackage}.${java.refs.Service.javaName};
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -8,18 +8,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * @ClassName ${java.javaName}
+ * @ClassName ${java.file.javaName}
  * @Description
  * @Author ${copyright.author!''}
  * @Date ${copyright.date!''}
  * @Version 1.0
  **/
 @Controller
-@RequestMapping(value = "/${javaRef.bean.javaName?uncap_first}")
-public class ${java.javaName} {
+@RequestMapping(value = "/${java.refs.Bean.javaName?uncap_first}")
+public class ${java.file.javaName} {
 
     @Autowired
-    ${javaRef.service.javaName} ${javaRef.service.javaName?uncap_first};
+    ${java.refs.Service.javaName} ${java.refs.Service.javaName?uncap_first};
 
     @RequestMapping(value = "/test")
     @ResponseBody

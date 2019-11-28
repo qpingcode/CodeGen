@@ -4,7 +4,7 @@
     "author": "qping",
     "date": "2019-08-07"
   },
-  "javas":{
+  "java":{
     "basePath": "/java",
     "basePackage": "com.test.proj",
     "ignoreTableName": ["t_", "tb_", "tbl_", "table_", "v_", "vw_", "view_"],

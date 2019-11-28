@@ -1,14 +1,14 @@
-package ${java.javaPackage};
+package ${java.file.javaPackage};
 
-import ${javaRef.Bean.javaPackage}.${javaRef.Bean.javaName};
+import ${java.refs.Bean.javaPackage}.${java.refs.Bean.javaName};
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * @ClassName ${java.javaName}
+ * @ClassName ${java.file.javaName}
  * @Author ${copyright.author!''}
  * @Date ${copyright.date!''}
  * @Version 1.0
  **/
-public interface ${java.javaName} extends JpaRepository<${javaRef.Bean.javaName}, Integer> {
+public interface ${java.file.javaName} extends JpaRepository<${java.refs.Bean.javaName}, Integer> {
 
 }

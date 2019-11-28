@@ -3,6 +3,7 @@ package me.qping.utils.codegen.bean.build;
 import lombok.Data;
 import me.qping.utils.database.metadata.bean.TableMeta;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -20,9 +21,12 @@ public class BuildConfig {
     String schema;
     String output;
 
+    // user define params
+    Map<String,Object> userParams;
+
     Copyright copyright;
     TableMeta table;
-    JavaFiles javas;
+    JavaFiles java;
 
     public static BuildConfig create(){
         return new BuildConfig();

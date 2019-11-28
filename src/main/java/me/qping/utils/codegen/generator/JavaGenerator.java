@@ -2,11 +2,13 @@ package me.qping.utils.codegen.generator;
 
 import lombok.extern.slf4j.Slf4j;
 import me.qping.utils.codegen.bean.build.BuildConfig;
+import me.qping.utils.codegen.bean.build.Copyright;
 import me.qping.utils.codegen.bean.build.JavaFile;
 import me.qping.utils.codegen.bean.build.JavaFiles;
 import me.qping.utils.codegen.freemarker.FreemarkerUtil;
 import me.qping.utils.codegen.util.GenUtil;
 import me.qping.utils.database.metadata.bean.ColumnMeta;
+import me.qping.utils.database.metadata.bean.TableMeta;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,21 +38,40 @@ public class JavaGenerator {
             return;
         }
 
+        String schema;
+        String output;
+
+        // user define params
+        Map<String,Object> userParams;
+
+        Copyright copyright;
+        TableMeta table;
+        JavaFiles javas;
+
         // 构建 freemarker 输入数据模型，将 buildConfig 转为 freemarker 方便调用的格式
+        Map java = new HashMap();
+        java.put("file", javaFile);
+        java.put("importPackages", config.getTable().getColumns().stream().map(v-> v.getJavaPackage()).collect(Collectors.toSet()));
+        java.put("refs", javaFilesToMap(config.getJava()));
+
+
         Map dataModel = new HashMap<>();
-        dataModel.put("table", config.getTable());
-        dataModel.put("java", javaFile);
-        dataModel.put("javaImports", config.getTable().getColumns().stream().map(v-> v.getJavaImport()).collect(Collectors.toSet()));
-        dataModel.put("javaRef", javaFilesToMap(config.getJavas()));
+
+        dataModel.put("schema", config.getSchema());
+        dataModel.put("output", config.getOutput());
+        dataModel.put("userParams", config.getUserParams());
         dataModel.put("copyright", config.getCopyright());
+        dataModel.put("table", config.getTable());
+        dataModel.put("java", java);
+
 
         // 对于java的预处理，将包路径转为路径，用于生成文件
-        String javaPackage = notNull(config.getJavas().getBasePackage()) +
+        String javaPackage = notNull(config.getJava().getBasePackage()) +
                 (javaFile.getJavaPackage() == null ? "" : ("." + javaFile.getJavaPackage()));
 
         // 生成路径不包含 basePackage 包路径
         // String filePath = notNull(config.getJavas().getBasePath()) + FILE_SEPARATOR + javaPackage.replaceAll("\\.", FILE_SEPARATOR);
-        String filePath = notNull(config.getJavas().getBasePath()) + FILE_SEPARATOR +
+        String filePath = notNull(config.getJava().getBasePath()) + FILE_SEPARATOR +
                 javaFile.getJavaPackage().replaceAll("\\.", FILE_SEPARATOR);
 
         if(needFreemark(javaFile.getFileName())){
