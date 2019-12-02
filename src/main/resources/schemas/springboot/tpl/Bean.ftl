@@ -27,7 +27,7 @@ public class ${java.file.javaName!''} {
             <@align left=4>
                 @Id
                 @Column(name = "${column.name!''}")
-                private ${column.javaType!''}  ${column.alias!''};
+                private ${column.javaType!''}  ${column.camelCase!''};
 
             </@align>
         <#else>
@@ -35,14 +35,14 @@ public class ${java.file.javaName!''} {
                 <@align left=4>
                     @Basic
                     @Column(name = "${column.name!''}", columnDefinition="${column.type}")
-                    private ${column.javaType!''}  ${column.alias!''};<#if column.comment??> // ${column.comment}</#if>
+                    private ${column.javaType!''}  ${column.camelCase!''};<#if column.comment??> // ${column.comment}</#if>
 
                 </@align>
             <#else>
                 <@align left=4>
                     @Basic
                     @Column(name = "${column.name!''}")
-                    private ${column.javaType!''}  ${column.alias!''};<#if column.comment??> // ${column.comment}</#if>
+                    private ${column.javaType!''}  ${column.camelCase!''};<#if column.comment??> // ${column.comment}</#if>
 
                 </@align>
             </#if>

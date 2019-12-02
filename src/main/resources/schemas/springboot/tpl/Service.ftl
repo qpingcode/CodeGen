@@ -2,7 +2,7 @@ package ${java.file.javaPackage};
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.file.util.List;
+import java.util.List;
 
 import ${java.refs.Dao.javaPackage}.${java.refs.Dao.javaName};
 import ${java.refs.Bean.javaPackage}.${java.refs.Bean.javaName};

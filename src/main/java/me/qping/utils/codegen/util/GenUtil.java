@@ -44,4 +44,12 @@ public class GenUtil {
 
     }
 
+    public static String getNameWithoutPrefix(String name, String[] ignoreTableName) {
+        for(String ignore : ignoreTableName){
+            if(name.startsWith(ignore)){
+                name = name.substring(ignore.length(), name.length());
+            }
+        }
+        return name;
+    }
 }

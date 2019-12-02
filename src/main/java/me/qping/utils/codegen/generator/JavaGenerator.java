@@ -38,32 +38,19 @@ public class JavaGenerator {
             return;
         }
 
-        String schema;
-        String output;
-
-        // user define params
-        Map<String,Object> userParams;
-
-        Copyright copyright;
-        TableMeta table;
-        JavaFiles javas;
-
         // 构建 freemarker 输入数据模型，将 buildConfig 转为 freemarker 方便调用的格式
         Map java = new HashMap();
         java.put("file", javaFile);
         java.put("importPackages", config.getTable().getColumns().stream().map(v-> v.getJavaPackage()).collect(Collectors.toSet()));
         java.put("refs", javaFilesToMap(config.getJava()));
 
-
         Map dataModel = new HashMap<>();
-
         dataModel.put("schema", config.getSchema());
         dataModel.put("output", config.getOutput());
         dataModel.put("userParams", config.getUserParams());
         dataModel.put("copyright", config.getCopyright());
         dataModel.put("table", config.getTable());
         dataModel.put("java", java);
-
 
         // 对于java的预处理，将包路径转为路径，用于生成文件
         String javaPackage = notNull(config.getJava().getBasePackage()) +
