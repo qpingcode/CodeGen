@@ -4,18 +4,17 @@ import com.alibaba.fastjson.JSONObject;
 import me.qping.utils.codegen.bean.build.*;
 import me.qping.utils.codegen.generator.JavaGenerator;
 import me.qping.utils.codegen.util.GenUtil;
-import me.qping.utils.database.metadata.DataBaseMetaData;
+import me.qping.utils.database.DataBaseUtilBuilder;
 import me.qping.utils.database.metadata.bean.ColumnMeta;
 import me.qping.utils.database.metadata.bean.TableMeta;
+import me.qping.utils.database.util.MetaDataUtil;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @ClassName CodeGenUtil
@@ -25,28 +24,31 @@ import java.util.stream.Collectors;
  **/
 public class CodeGenUtil {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
 
         // 获取数据表元数据
-        DataBaseMetaData metadataUtil = DataBaseMetaData.builder()
-                .mysql("192.168.100.17", "3306", "data_transform", "datamiller", "datamiller")
+        MetaDataUtil metadataUtil = DataBaseUtilBuilder
+                .mysql("192.168.80.20", "30306", "disease_report", "root", "rxthinkingmysql")
                 .build();
-
 
         // 转换build.json
         String schemaName = "rxthinking";
 
 
-        List<TableMeta> tableMetas = metadataUtil.listTable();
-        for(TableMeta tableMeta: tableMetas){
-            doExecute(metadataUtil, tableMeta.getName(), schemaName);
-        }
+//        // 批量生成所有
+//        List<TableMeta> tableMetas = metadataUtil.listTable();
+//        for(TableMeta tableMeta: tableMetas){
+//            doExecute(metadataUtil, tableMeta.getName(), schemaName);
+//        }
+
+        // 生成单个表
+        doExecute(metadataUtil, "report_his_log", schemaName);
 
     }
 
-    private static void doExecute(DataBaseMetaData metadataUtil, String tableName, String schemaName) throws IOException {
+    private static void doExecute(MetaDataUtil metadataUtil, String tableName, String schemaName) throws IOException, SQLException {
 
-        TableMeta tableMeta = metadataUtil.analyze(tableName);
+        TableMeta tableMeta = metadataUtil.getTableInfo(tableName);
 
         InputStream stream = CodeGenUtil.class.getResourceAsStream(String.format(BuildConfig.buildJsonPath, schemaName));
         String json = IOUtils.toString(stream, "UTF-8");

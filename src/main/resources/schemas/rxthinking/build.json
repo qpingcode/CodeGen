@@ -9,7 +9,7 @@
   },
   "java":{
     "basePath": "/java",
-    "basePackage": "com.rxthinking.datatrans",
+    "basePackage": "com.rxthinking.dr",
     "ignoreTableName": ["T_", "TB_", "V_", "VW_", "DT_"],
     "ignoreColumnName": ["F_", "C_", "COL_"],
     "list" : [
@@ -25,8 +25,8 @@
       },
       {
         "fileTpl": "Repository",
-        "fileName": "${table.camelCase}Repository.java",
-        "javaPackage": "repository"
+        "fileName": "${table.camelCase}Dao.java",
+        "javaPackage": "dao"
       },
       {
         "fileTpl": "Service",
