@@ -28,21 +28,21 @@ public class CodeGenUtil {
 
         // 获取数据表元数据
         MetaDataUtil metadataUtil = DataBaseUtilBuilder
-                .mysql("192.168.80.20", "30306", "disease_report", "root", "rxthinkingmysql")
+                .mysql("192.168.1.201", "30306", "disease_report", "root", "rxthinkingmysql")
                 .build();
 
         // 转换build.json
-        String schemaName = "rxthinking";
+        String schemaName = "rxthinking-swagger";
 
 
-//        // 批量生成所有
-//        List<TableMeta> tableMetas = metadataUtil.listTable();
+        // 批量生成所有
+//        List<TableMeta> tableMetas = metadataUtil.getTables();
 //        for(TableMeta tableMeta: tableMetas){
 //            doExecute(metadataUtil, tableMeta.getName(), schemaName);
 //        }
 
         // 生成单个表
-        doExecute(metadataUtil, "report_his_log", schemaName);
+        doExecute(metadataUtil, "reg_pneumonia", schemaName);
 
     }
 

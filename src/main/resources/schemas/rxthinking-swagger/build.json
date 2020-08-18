@@ -5,11 +5,12 @@
     "date": "2019-08-07"
   },
   "userParams": {
-    "projectPrefix": "datatrans"
+    "projectPrefix": "datatrans",
+    "projectRabbitmqPath": "dr"
   },
   "java":{
     "basePath": "/java",
-    "basePackage": "com.rxthinking.clock",
+    "basePackage": "com.rxthinking.dr",
     "ignoreTableName": ["T_", "TB_", "V_", "VW_", "DT_"],
     "ignoreColumnName": ["F_", "C_", "COL_"],
     "list" : [

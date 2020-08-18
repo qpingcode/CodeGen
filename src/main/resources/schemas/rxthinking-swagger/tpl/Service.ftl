@@ -3,8 +3,6 @@ package ${java.file.javaPackage};
 import com.rxthinking.common.anno.ServiceMapping;
 import com.rxthinking.common.core.BusinessException;
 import com.rxthinking.common.pojo.request.PageBean;
-import com.rxthinking.common.pojo.request.RequestParams;
-import com.rxthinking.common.pojo.request.RequestParamsPage;
 import com.rxthinking.common.pojo.response.PageData;
 import com.rxthinking.common.service.BaseService;
 
@@ -22,6 +20,13 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.*;
 import java.util.List;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 /**
  * @ClassName ${java.file.javaName}
  * @Author ${copyright.author!''}
@@ -30,57 +35,56 @@ import java.util.List;
  **/
 @Service
 @ServiceMapping("${userParams.projectPrefix}_${table.nameWithoutPrefix}")
+@Api(tags =  "${table.comment!''}")
+@RequestMapping("/api/req/v1/${userParams.projectRabbitmqPath}")
 public class ${java.file.javaName} extends BaseService{
 
     @Autowired
     ${java.refs.Repository.javaName} ${java.refs.Repository.javaName?uncap_first};
 
-    public ${java.refs.Bean.javaName} findById(RequestParams requestParams) {
-        // 获取入参
-        Integer id = getParam(requestParams, "id");
-        // 查询
+    @ApiOperation(value="查询")
+    @PostMapping(value = "${userParams.projectPrefix}_${table.nameWithoutPrefix}:findById")
+    public ${java.refs.Bean.javaName} findById(Integer id) {
         return ${java.refs.Repository.javaName?uncap_first}.findById(id).orElse(null);
     }
 
-    public boolean save(RequestParams requestParams) {
-        // 获取入参
-        ${java.refs.Bean.javaName} bean = getParamsBO(requestParams, ${java.refs.Bean.javaName}.class);
-        // 保存
+    @ApiOperation(value="保存")
+    @PostMapping(value = "${userParams.projectPrefix}_${table.nameWithoutPrefix}:save")
+    public boolean save(${java.refs.Bean.javaName} bean) {
         ${java.refs.Repository.javaName?uncap_first}.save(bean);
         return true;
     }
 
-    public boolean saveAll(RequestParams requestParams) {
-        // 获取入参
-        List<${java.refs.Bean.javaName}> list = getParamsListBO(requestParams, "list", ${java.refs.Bean.javaName}.class);
-        // 保存
+    @ApiOperation(value="保存多个")
+    @PostMapping(value = "${userParams.projectPrefix}_${table.nameWithoutPrefix}:saveAll")
+    public boolean saveAll(List<${java.refs.Bean.javaName}> list) {
         ${java.refs.Repository.javaName?uncap_first}.saveAll(list);
         return true;
     }
 
-    public boolean delete(RequestParams requestParams) {
-        // 获取入参
-        Integer id = getParam(requestParams, "id");
-        // 删除
+    @ApiOperation(value="删除")
+    @PostMapping(value = "${userParams.projectPrefix}_${table.nameWithoutPrefix}:delete")
+    public boolean delete(Integer id) {
         ${java.refs.Repository.javaName?uncap_first}.deleteById(id);
         return true;
     }
 
-    public List<${java.refs.Bean.javaName}> findAll(RequestParams requestParams) {
-        // 获取入参
-        ${java.refs.BeanBO.javaName} bo = getParamsBO(requestParams, ${java.refs.BeanBO.javaName}.class);
+    public static final String COLUMS_ALLOW = "<#list table.columns as column>${column.camelCase!''}<#if column_has_next>,</#if></#list>";
+
+    @ApiOperation(value="查询列表")
+    @PostMapping(value = "${userParams.projectPrefix}_${table.nameWithoutPrefix}:findAll")
+    public List<${java.refs.Bean.javaName}> findAll(${java.refs.BeanBO.javaName} bo) {
         // 排序
-        Sort sort = createSort(bo.getOrderBy());
+        Sort sort = createSort(bo.getOrderBy(), COLUMS_ALLOW);
         // 查询
         return ${java.refs.Repository.javaName?uncap_first}.findAll(getSpec(bo), sort);
     }
 
-    public PageData<${java.refs.Bean.javaName}> findPage(RequestParamsPage requestParams) {
-        // 获取入参
-        ${java.refs.BeanBO.javaName} bo = getParamsBO(requestParams, ${java.refs.BeanBO.javaName}.class);
-        PageBean pageBean = getPageBean(requestParams);
+    @ApiOperation(value="查询分页")
+    @PostMapping(value = "${userParams.projectPrefix}_${table.nameWithoutPrefix}:findPage")
+    public PageData<${java.refs.Bean.javaName}> findPage(${java.refs.BeanBO.javaName} bo, PageBean pageBean) {
         // 排序
-        Sort sort = createSort(bo.getOrderBy());
+        Sort sort = createSort(bo.getOrderBy(), COLUMS_ALLOW);
         // 分页
         PageRequest pageable = PageRequest.of(pageBean.getPageNum(), pageBean.getPageSize(), sort);
         // 查询
@@ -92,22 +96,6 @@ public class ${java.file.javaName} extends BaseService{
         pageData.setData(pageResult.getContent());
         pageData.setTotalSize(pageResult.getTotalElements());
         return pageData;
-    }
-
-
-    public static final String COLUMS_ALLOW = "<#list table.columns as column>${column.camelCase!''}<#if column_has_next>,</#if></#list>";
-
-    private Sort createSort(String orderBy) {
-        if(orderBy == null || "".equals(orderBy)){
-            return Sort.unsorted();
-        }
-        String[] arr = orderBy.split(" ");
-        String column = arr[0];
-        String direction = arr[1];
-        if(!COLUMS_ALLOW.contains(column)){
-            throw new BusinessException("非法的排序字段");
-        }
-        return Sort.by(Sort.Direction.valueOf(direction.toUpperCase()), column);
     }
 
     private Specification<${java.refs.Bean.javaName}> getSpec(${java.refs.BeanBO.javaName} bo) {

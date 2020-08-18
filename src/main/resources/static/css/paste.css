@@ -1,0 +1,57 @@
+.dropzone {
+    margin-top:30px;
+    min-height: 200px;
+    width: 660px;
+    border: 2px dashed #0087F7;
+    border-radius: 5px;
+    background: white;
+}
+
+.dropzone .dz-details{
+    padding:26px 5px;
+}
+
+.dropzone .dz-message {
+    font-weight: 400;
+}
+.dropzone .dz-message .note {
+    font-size: 0.8em;
+    font-weight: 200;
+    display: block;
+    margin-top: 1.4rem;
+}
+
+.del-btn{
+    margin-left:2px;
+    margin-top:2px;
+    height:20px;
+    width: 64px;
+}
+
+.file-name{
+    white-space: nowrap;
+    width:70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+textarea{
+    width: 660px;
+    height: 200px;
+}
+
+.dropzone .dz-preview:hover .dz-image img {
+    -webkit-transform: scale(1.02, 1.02);
+    -moz-transform: scale(1.02, 1.02);
+    -ms-transform: scale(1.02, 1.02);
+    -o-transform: scale(1.02, 1.02);
+    transform: scale(1.02, 1.02);
+    -webkit-filter: none;
+    filter: none;
+}
+
+.dropzone .dz-preview .dz-image {
+    border-radius: 0px;
+    width: 80px;
+    height: 80px;
+}

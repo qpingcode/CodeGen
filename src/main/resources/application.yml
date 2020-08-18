@@ -1,0 +1,35 @@
+server:
+  port: 29999
+spring:
+  data:
+    mongodb:
+      uri: mongodb://192.168.1.201:37017/codegen
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: false
+  h2:
+    console:
+      enabled: true
+      path: /console
+      settings:
+        trace: false
+        web-allow-others: false
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:~/.h2/codegen;AUTO_SERVER=TRUE
+    username: sa
+    password: sa
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://192.168.1.201:30306/data_transform?useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false
+#    username: root
+#    password: rxthinkingmysql
+#    type: com.alibaba.druid.pool.DruidDataSource
