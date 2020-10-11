@@ -19,7 +19,9 @@ public class Table {
     String name;
     String nameLower;
     String nameWithoutPrefix;
-    String camelCase;
+
+    String camelCase;   // 首字母小写的驼峰明明
+
     String comment;
     List<Column> columns;
     List<PrimaryKeyMeta> primaryKeys;

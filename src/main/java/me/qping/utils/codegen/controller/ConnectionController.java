@@ -1,9 +1,9 @@
 package me.qping.utils.codegen.controller;
 
 import me.qping.common.model.AjaxMsg;
-import me.qping.utils.codegen.CodeGenUtil;
 import me.qping.utils.codegen.bean.h2.DBConnection;
 import me.qping.utils.codegen.dao.DBConnectionDao;
+import me.qping.utils.codegen.util.SnowFlakeId;
 import me.qping.utils.database.DataBaseUtilBuilder;
 import me.qping.utils.database.connect.DataBaseType;
 import me.qping.utils.database.metadata.bean.TableMeta;
@@ -13,27 +13,54 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.SQLException;
+import java.util.List;
 
 @Controller
-@RequestMapping("/code")
-public class CodeController {
+@RequestMapping("/connection")
+public class ConnectionController {
+
+    SnowFlakeId worker = new SnowFlakeId(1, 1, 1);
 
     @Autowired
     DBConnectionDao dbConnectionDao;
 
-    @RequestMapping("/generate")
+    @RequestMapping("/findAll")
     @ResponseBody
-    public AjaxMsg generate(Long connectionId, String tableName, String schemaName){
+    public List<DBConnection> findAll() {
+        return dbConnectionDao.findAllByOrderByIdDesc();
+    }
+
+    @RequestMapping("/deleteById")
+    @ResponseBody
+    public boolean deleteById(Long id) {
+        DBConnection connection = dbConnectionDao.findById(id).orElse(null);
+        if (connection != null) {
+            dbConnectionDao.delete(connection);
+        }
+        return true;
+    }
+
+    @RequestMapping("/save")
+    @ResponseBody
+    public Long save(DBConnection connection) {
+        if (connection.getId() == null) {
+            connection.setId(worker.nextId());
+        }
+        dbConnectionDao.save(connection);
+        return connection.getId();
+    }
+
+    @RequestMapping("/getTableNames")
+    @ResponseBody
+    public AjaxMsg getTableNames(Long connectionId) {
         DBConnection c = dbConnectionDao.findById(connectionId).orElse(null);
 
-        schemaName = schemaName == null ? "rxthinking-swagger": schemaName;
-
-        if(c == null){
+        if (c == null) {
             return AjaxMsg.fail().setMsg("无法找到该连接");
         }
 
+        //  boolean useServiceName, String schema)
         MetaDataUtil dbutil = null;
         try {
             dbutil = DataBaseUtilBuilder.init(
@@ -47,13 +74,8 @@ public class CodeController {
                     null
             ).build();
 
-            Map<String,String> userParams = new HashMap<>();
-            TableMeta tableMeta = dbutil.getTableInfo(tableName);
-
-            CodeGenUtil.doExecute(userParams, tableMeta, schemaName);
-
-
-            return AjaxMsg.success();
+            List<TableMeta> tables = dbutil.getTables();
+            return AjaxMsg.success().setData(tables);
         } catch (Exception e) {
             return AjaxMsg.fail().setMsg(e.getMessage());
         }

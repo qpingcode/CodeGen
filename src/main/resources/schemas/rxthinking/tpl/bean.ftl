@@ -1,10 +1,10 @@
-package ${java.file.javaPackage};
+package ${template.javaPackage};
 
-import lombok.Data;
-import javax.persistence.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-<#list java.importPackages as package>
+import lombok.Data;
+import javax.persistence.*;
+<#list template.importPackages as package>
     <#if package??>
         <@align>
             import ${package};
@@ -13,17 +13,16 @@ import io.swagger.annotations.ApiModelProperty;
 </#list>
 
 /**
- * @ClassName ${java.file.javaName!''}
+ * @ClassName ${template.javaName!''}
  * @Description ${table.comment!''}
  * @Author ${copyright.author!''}
  * @Date ${copyright.date!''}
- * @Version 1.0
+ * @Version ${copyright.version!''}
  **/
 @Entity
 @Table(name = "${table.name!''}")
-@ApiModel(value = "${table.comment!'数据库实体对象Bean'} - ${table.name!''}")
 @Data
-public class ${java.file.javaName!''} {
+public class ${template.javaName!''} {
 
     <#list table.columns as column>
         <#if column.primaryKey == true>

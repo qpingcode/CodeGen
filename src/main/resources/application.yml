@@ -1,16 +1,18 @@
 server:
-  port: 29999
+  port: 9999
 spring:
-  data:
-    mongodb:
-      uri: mongodb://192.168.1.201:37017/codegen
+  devtools:
+    restart:
+      enabled: true  #设置开启热部署
+      additional-paths: src/main/java #重启目录
+      exclude: WEB-INF/**
   servlet:
     multipart:
       max-file-size: -1
       max-request-size: -1
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:
@@ -33,3 +35,6 @@ spring:
 #    username: root
 #    password: rxthinkingmysql
 #    type: com.alibaba.druid.pool.DruidDataSource
+
+generate:
+  output: /Users/qping/test

@@ -1,8 +1,8 @@
-package ${java.file.javaPackage};
+package ${template.javaPackage};
 
 import lombok.Data;
 import javax.persistence.*;
-<#list java.importPackages as package>
+<#list template.importPackages as package>
     <#if package??>
         <@align>
             import ${package};
@@ -11,31 +11,30 @@ import javax.persistence.*;
 </#list>
 
 /**
- * @ClassName ${java.file.javaName!''}
+ * @ClassName ${template.javaName!''}
  * @Description ${table.comment!''}
  * @Author ${copyright.author!''}
  * @Date ${copyright.date!''}
- * @Version 1.0
+ * @Version ${copyright.version!''}
  **/
 @Entity
 @Table(name = "${table.name!''}")
 @Data
-public class ${java.file.javaName!''} {
+public class ${template.javaName!''} {
 
     <#list table.columns as column>
         <#if column.primaryKey == true>
             <@align left=4>
                 @Id
-                @GeneratedValue(strategy = GenerationType.IDENTITY)
-                @Column(name = "${column.name!''}"<#if column.columnDefine??>,columnDefinition = "${column.columnDefine}"</#if>)
-                private ${column.javaType!''} ${column.camelCase!''};<#if column.comment??> // ${column.comment}</#if>
+                @Column(name = "${column.name!''}")
+                private ${column.javaType!''}  ${column.camelCase!''};
 
             </@align>
         <#else>
             <@align left=4>
                 @Basic
                 @Column(name = "${column.name!''}"<#if column.columnDefine??>,columnDefinition = "${column.columnDefine}"</#if>)
-                private ${column.javaType!''} ${column.camelCase!''};<#if column.comment??> // ${column.comment}</#if>
+                private ${column.javaType!''}  ${column.camelCase!''};<#if column.comment??> // ${column.comment}</#if>
 
             </@align>
         </#if>

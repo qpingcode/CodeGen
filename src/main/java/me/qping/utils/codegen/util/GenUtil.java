@@ -21,6 +21,7 @@ public class GenUtil {
         for(String ignore : beginIgnores){
             if(name.startsWith(ignore)){
                 name = name.substring(ignore.length(), name.length());
+                break;
             }
         }
 

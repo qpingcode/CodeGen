@@ -10,10 +10,9 @@
         <div class="layui-form-item">
             <label class="layui-form-label">数据库连接</label>
             <div class="layui-input-inline">
-                <select name="dbConnectionChoose" id="dbConnectionChoose">
-                </select>
+                <select name="dbConnectionChoose" id="dbConnectionChoose" lay-filter="db"></select>
             </div>
-            <div class="layui-input-inline" style="margin-top:10px">
+            <div class="layui-input-inline"  style="margin-top:10px">
                 <a id="connectionCreate" href="javascript:void(0)">新建</a> &emsp;
                 <a id="connectionDelete" href="javascript:void(0)">删除</a>
             </div>
@@ -39,7 +38,7 @@
 
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button class="layui-btn" id="execBtn" lay-filter="formDemo">生成代码</button>
+                <button class="layui-btn" id="genBtn" lay-filter="formDemo">生成代码</button>
                 <#--<button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
             </div>
         </div>
@@ -55,6 +54,7 @@
 <script>
 
     $(function () {
+
 
         loadConnection();
 
@@ -83,15 +83,44 @@
             })
         })
 
-        $("#execBtn").click(function () {
-            $("#form").submit()
-            parent.reload();
-            var index = parent.layer.getFrameIndex(window.name);
-            parent.layer.close(index);
-            return false;
+
+
+        $("#genBtn").click(function () {
+
         })
 
+
+        layui.form.on('select(db)', function(data){
+            getTableNames(data.value);
+        });
+
+
     })
+
+    function getTableNames(id){
+        $.ajax({
+            url: "/connection/getTableNames",
+            type: "post",
+            data: {connectionId: id},
+            cache: false,
+            dataType: "json",
+            success: function (ajaxmsg) {
+                if(ajaxmsg.code != 'success'){
+                    alert(ajaxmsg.msg);
+                    return;
+                }
+                $('#tableChoose').html('');
+                $.each(ajaxmsg.data, function (index, row) {
+                    var option = new Option(row.name, row.name);
+                    if(index == 0){
+                        option.defaultSelected = true;
+                    }
+                    $('#tableChoose').append(option);
+                })
+                layui.form.render("select");
+            }
+        })
+    }
 
     function loadConnection(){
         $.ajax({
@@ -106,6 +135,7 @@
                     var option = new Option(row.name, row.id);
                     if(index == 0){
                         option.defaultSelected = true;
+                        getTableNames(row.id)
                     }
                     $('#dbConnectionChoose').append(option);
                 })

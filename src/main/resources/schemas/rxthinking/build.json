@@ -1,39 +1,44 @@
 {
-  "output": "/Users/qping/test",
   "copyright":{
     "author": "qping",
-    "date": "2019-08-07"
+    "date": "2019-08-07",
+    "version": "1.0"
   },
-  "userParams": {
-    "projectPrefix": "datatrans"
-  },
-  "java":{
-    "basePath": "/java",
-    "basePackage": "com.rxthinking.clock",
+  "params": {
     "ignoreTableName": ["T_", "TB_", "V_", "VW_", "DT_"],
     "ignoreColumnName": ["F_", "C_", "COL_"],
-    "list" : [
-      {
-        "fileTpl": "BeanBO",
-        "fileName": "${table.camelCase}BO.java",
-        "javaPackage": "bean.bo"
-      },
-      {
-        "fileTpl": "Bean",
-        "fileName": "${table.camelCase}.java",
-        "javaPackage": "bean"
-      },
-      {
-        "fileTpl": "Repository",
-        "fileName": "${table.camelCase}Dao.java",
-        "javaPackage": "dao"
-      },
-      {
-        "fileTpl": "Service",
-        "fileName": "${table.camelCase}Service.java",
-        "javaPackage": "service"
-      }
-    ]
-  }
+    "basePackage": "com.rxthinking.clock",
+    "projectPrefix": "datatrans"
+  },
+  "templates": [
+    {
+      "fileKey" : "beanBO",
+      "fileName": "${table.camelCase}BO.java",
+      "filePath": "bean/bo",
+      "filePackage" : "${params.basePackage}.bean.bo",
+      "condition": null
+    },
+    {
+      "fileKey": "bean",
+      "fileName": "${table.camelCase}.java",
+      "filePath": "bean",
+      "filePackage" : "${params.basePackage}.bean",
+      "condition": null
+    },
+    {
+      "fileKey": "repository",
+      "fileName": "${table.camelCase}Repository.java",
+      "filePath": "repository",
+      "filePackage" : "${params.basePackage}.repository",
+      "condition": null
+    },
+    {
+      "fileKey": "service",
+      "fileName": "${table.camelCase}Service.java",
+      "filePath": "service",
+      "filePackage" : "${params.basePackage}.service",
+      "condition": null
+    }
+  ]
 
 }

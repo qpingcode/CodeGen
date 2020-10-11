@@ -1,0 +1,45 @@
+{
+  "copyright":{
+    "author": "qping",
+    "date": "2019-08-07",
+    "version": "1.0"
+  },
+  "params": {
+    "ignoreTableName": ["T_", "TB_", "V_", "VW_", "DT_"],
+    "ignoreColumnName": ["F_", "C_", "COL_"],
+    "basePackage": "me.qping.utils",
+  },
+  "templates":[
+      {
+        "fileKey": "BeanPK",
+        "fileName": "${table.camelCase}PK.java",
+        "filePackage": "${params.basePackage}.bean",
+        "filePath": "bean",
+        "condition": "@.jpa.PrimaryKeyCondition"
+      },
+      {
+        "fileKey": "Bean",
+        "fileName": "${table.camelCase}.java",
+        "filePackage": "${params.basePackage}.bean",
+        "filePath": "bean"
+      },
+      {
+        "fileKey": "Dao",
+        "fileName": "${table.camelCase}Dao.java",
+        "filePackage": "${params.basePackage}.dao",
+        "filePath": "dao"
+      },
+      {
+        "fileKey": "Service",
+        "fileName": "${table.camelCase}Service.java",
+        "filePackage": "${params.basePackage}.service",
+        "filePath": "service"
+      },
+      {
+        "fileKey": "RestController",
+        "fileName": "${table.camelCase}Controller.java",
+        "filePackage": "${params.basePackage}.controller",
+        "filePath": "controller"
+      }
+    ]
+}

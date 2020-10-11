@@ -13,4 +13,5 @@ import lombok.Data;
 public class Copyright {
     String author;
     String date;
+    String version;
 }
