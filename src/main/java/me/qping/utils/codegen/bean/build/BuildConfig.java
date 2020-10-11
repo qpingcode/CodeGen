@@ -21,10 +21,10 @@ public class BuildConfig {
 
     // build.json
     Map<String,String> params;
-    Copyright copyright;
     List<Template> templates;
 
     // runtime
+    Copyright copyright;
     Table table;
 
     public static BuildConfig create(){
@@ -36,5 +36,17 @@ public class BuildConfig {
             return params.get(key);
         }
         return null;
+    }
+
+    public static String getOutputPath(){
+        if(outputPath == null) return "";
+        return addSplit(outputPath);
+    }
+
+    public static String addSplit(String path) {
+        if(path.endsWith("/")){
+            return path;
+        }
+        return path + "/";
     }
 }

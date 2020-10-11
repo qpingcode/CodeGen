@@ -19,6 +19,7 @@ public class SnowFlakeId {
         }
         System.out.printf("worker starting. timestamp left shift %d, datacenter id bits %d, worker id bits %d, sequence bits %d, workerid %d",
                 timestampLeftShift, datacenterIdBits, workerIdBits, sequenceBits, workerId);
+        System.out.println();
 
         this.workerId = workerId;
         this.datacenterId = datacenterId;

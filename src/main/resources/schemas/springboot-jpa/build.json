@@ -1,12 +1,7 @@
 {
-  "copyright":{
-    "author": "qping",
-    "date": "2019-08-07",
-    "version": "1.0"
-  },
   "params": {
-    "ignoreTableName": ["T_", "TB_", "V_", "VW_", "DT_"],
-    "ignoreColumnName": ["F_", "C_", "COL_"],
+    "ignoreTableName": "T_,TB_,V_,VW_,t_,tb_,v_,vw_",
+    "ignoreColumnName": "F_,C_,COL_,f_,c_,col_",
     "basePackage": "me.qping.utils",
   },
   "templates":[

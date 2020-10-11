@@ -2,14 +2,13 @@ package me.qping.utils.codegen;
 
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import me.qping.utils.codegen.bean.build.BuildConfig;
-import me.qping.utils.codegen.bean.build.Column;
-import me.qping.utils.codegen.bean.build.Table;
-import me.qping.utils.codegen.bean.build.Template;
+import me.qping.utils.codegen.bean.build.*;
 import me.qping.utils.codegen.freemarker.FreemarkerUtil;
 import me.qping.utils.codegen.generator.Condition;
 import me.qping.utils.codegen.generator.lang.Decorator;
 import me.qping.utils.codegen.util.GenUtil;
+import me.qping.utils.codegen.util.SnowFlakeId;
+import me.qping.utils.codegen.util.ZipUtil;
 import me.qping.utils.database.DataBaseUtilBuilder;
 import me.qping.utils.database.metadata.bean.ColumnMeta;
 import me.qping.utils.database.metadata.bean.TableMeta;
@@ -19,10 +18,8 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static me.qping.utils.codegen.bean.build.Template.CONDITION_DEFAULT_PACKAGE;
@@ -36,42 +33,57 @@ import static me.qping.utils.codegen.bean.build.Template.CONDITION_DEFAULT_PACKA
 @Slf4j
 public class CodeGenUtil {
 
+    static SnowFlakeId worker = new SnowFlakeId(2, 1, 1);
+
     public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
 
         // 获取数据表元数据
         MetaDataUtil metadataUtil = DataBaseUtilBuilder
-                .mysql("192.168.1.201", "30306", "disease_report", "root", "rxthinkingmysql")
+                .mysql("192.168.1.201", "30306", "data_transform", "root", "rxthinkingmysql")
                 .build();
+
+        TableMeta tableMeta = metadataUtil.getTableInfo("dt_data_dept");
+
+        String schemaName = "rxthinking";
+
+        // 用户自定义参数
+        Map<String,String> userParams = new HashMap<>();
+        userParams.put("projectPrefix", "datatrans");
+        userParams.put("basePackage", "com.rxthinking.datatrans");
+
+        // 版权信息
+        Copyright copyright = new Copyright();
+        copyright.setAuthor("qping");
+        copyright.setDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        copyright.setVersion("1.0");
+
+        // 生成单个表
+        long batchId = doExecute(userParams, tableMeta, schemaName, copyright);
+
+
+        // 压缩文件
+        ZipUtil.compress(CodeGenUtil.addSplit(CodeGenUtil.notNull(BuildConfig.outputPath)) + batchId);
+
 
         // 批量生成所有
 //        List<TableMeta> tableMetas = metadataUtil.getTables();
 //        for(TableMeta tableMeta: tableMetas){
-//            doExecute(metadataUtil, tableMeta.getName(), schemaName);
+//            doExecute(userParams, tableMeta, schemaName, copyright);
 //        }
 
-        String schemaName = "springboot";
-
-        Map<String,String> userParams = new HashMap<>();
-        userParams.put("projectPrefix", "datatrans");
-        userParams.put("basePackage", "com.rxthinking.test");
-
-        // 生成单个表
-        doExecute(userParams, metadataUtil, "reg_pneumonia", schemaName);
-
     }
 
-    public static void doExecute(Map<String,String> userParams, MetaDataUtil metadataUtil, String tableName, String schemaName) throws IOException, SQLException {
-        TableMeta tableMeta = metadataUtil.getTableInfo(tableName);
-        doExecute(userParams, tableMeta, schemaName);
-    }
+    public static long doExecute(Map<String,String> userParams, TableMeta tableMeta, String schemaName, Copyright copyright) throws IOException {
 
-    public static void doExecute(Map<String,String> userParams, TableMeta tableMeta, String schemaName) throws IOException {
+        long batchId = worker.nextId();
+
         InputStream stream = CodeGenUtil.class.getResourceAsStream(String.format(BuildConfig.buildJsonPath, schemaName));
         String json = IOUtils.toString(stream, "UTF-8");
 
 
         BuildConfig buildConfig = JSONObject.parseObject(json, BuildConfig.class);
         buildConfig.getParams().putAll(userParams);
+        buildConfig.setCopyright(copyright);
 
         // 初始化参数变量
         Map dataModel = init(buildConfig, tableMeta);
@@ -88,7 +100,7 @@ public class CodeGenUtil {
 
 
             // 文件输出路径，文件名
-            String outputParentPath = addSplit(notNull(buildConfig.outputPath)) + template.getFilePath();
+            String outputParentPath = BuildConfig.getOutputPath() + addSplit(batchId + "") + template.getFilePath();
             String outputFileName = template.getFileName();
 
             // 模版路径，模版名称
@@ -99,9 +111,11 @@ public class CodeGenUtil {
             FreemarkerUtil.process(dataModel, ftlPath, ftlName, outputParentPath, outputFileName);
             log.info("generate file: " + outputParentPath + "/"+ outputFileName);
         }
+
+        return batchId;
     }
 
-    private static String addSplit(String path) {
+    public static String addSplit(String path) {
         if(path.endsWith("/")){
             return path;
         }

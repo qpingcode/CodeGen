@@ -24,7 +24,7 @@ public class Decorator {
 
                 // java 专属 properties
                 javaFile.setJavaPackage(template.getFilePackage());
-                javaFile.setJavaName(config.getTable().getCamelCase());
+                javaFile.setJavaName(template.getFileName().substring(0, template.getFileName().length() - 5));
                 javaFile.setImportPackages(config.getTable().getColumns().stream().map(v-> v.getJavaPackage()).collect(Collectors.toSet()));
 
                 return javaFile;

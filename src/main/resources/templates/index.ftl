@@ -1,16 +1,30 @@
 <html>
 <head>
     <link rel="stylesheet" href="/layui/css/layui.css">
+    <style>
+        .layui-form-label {
+            width: 120px;
+        }
+
+        .layui-elem-field legend {
+            color: blue;
+        }
+    </style>
 </head>
 
 <body>
 <div class="layui-container" >
-    <form class="layui-form" action="/api/task/create" id="form">
+    <form class="layui-form" action="/code/generate" method="get" id="form">
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>数据库属性</legend>
+        </fieldset>
+
 
         <div class="layui-form-item">
             <label class="layui-form-label">数据库连接</label>
             <div class="layui-input-inline">
-                <select name="dbConnectionChoose" id="dbConnectionChoose" lay-filter="db"></select>
+                <select name="connectionId" id="connectionId" lay-filter="db"></select>
             </div>
             <div class="layui-input-inline"  style="margin-top:10px">
                 <a id="connectionCreate" href="javascript:void(0)">新建</a> &emsp;
@@ -22,7 +36,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">表名</label>
             <div class="layui-input-inline"  style="width:500px;">
-                <select name="tableChoose" id="tableChoose">
+                <select name="tableName" id="tableName">
                 </select>
             </div>
         </div>
@@ -30,10 +44,71 @@
         <div class="layui-form-item">
             <label class="layui-form-label">模版选择</label>
             <div class="layui-input-inline"  style="width:500px;">
-                <select name="templateChoose" id="templateChoose">
+                <select name="schemaName" id="schemaName">
+                    <option value="rxthinking">rxthinking</option>
+                    <option value="springboot-jpa">springboot-jpa</option>
                 </select>
             </div>
         </div>
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>自定义参数</legend>
+        </fieldset>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">表名前缀忽略</label>
+            <div class="layui-input-inline"  style="width:500px;">
+                <input type="text" name="ignoreTableName" id="ignoreTableName" value="T_,TB_,V_,VW_,DT_,t_,tb_,v_,vw_,dt_" class="layui-input"></input>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">字段名前缀忽略</label>
+            <div class="layui-input-inline"  style="width:500px;">
+                <input type="text" name="ignoreColumnName" id="ignoreColumnName" value="F_,C_,COL_,f_,c_,col_" class="layui-input"></input>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">包名前缀</label>
+            <div class="layui-input-inline"  style="width:500px;">
+                <input type="text" name="basePackage" id="basePackage" value="com.rxthinking.test" class="layui-input"></input>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">项目英文简写</label>
+            <div class="layui-input-inline"  style="width:500px;">
+                <input type="text" name="projectPrefix" id="projectPrefix" value="test" class="layui-input"></input>
+            </div>
+        </div>
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>版权信息</legend>
+        </fieldset>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">作者</label>
+            <div class="layui-input-inline"  style="width:500px;">
+                <input type="text" name="author" id="author" class="layui-input"></input>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">创建日期</label>
+            <div class="layui-input-inline"  style="width:500px;">
+                <input type="text" name="date" id="date" class="layui-input"></input>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">版本号</label>
+            <div class="layui-input-inline"  style="width:500px;">
+                <input type="text" value="1.0" name="version" id="version" class="layui-input"></input>
+            </div>
+        </div>
+
+
 
 
         <div class="layui-form-item">
@@ -75,7 +150,7 @@
                 url: "/connection/deleteById",
                 type: "post",
                 cache: false,
-                data:{id: $("#dbConnectionChoose").val()},
+                data:{id: $("#connectionId").val()},
                 dataType: "json",
                 success: function (data) {
                     loadConnection()
@@ -84,10 +159,6 @@
         })
 
 
-
-        $("#genBtn").click(function () {
-
-        })
 
 
         layui.form.on('select(db)', function(data){
@@ -109,13 +180,13 @@
                     alert(ajaxmsg.msg);
                     return;
                 }
-                $('#tableChoose').html('');
+                $('#tableName').html('');
                 $.each(ajaxmsg.data, function (index, row) {
                     var option = new Option(row.name, row.name);
                     if(index == 0){
                         option.defaultSelected = true;
                     }
-                    $('#tableChoose').append(option);
+                    $('#tableName').append(option);
                 })
                 layui.form.render("select");
             }
@@ -130,14 +201,14 @@
             dataType: "json",
             success: function (data) {
                 if(!data) return;
-                $('#dbConnectionChoose').html('');
+                $('#connectionId').html('');
                 $.each(data, function (index, row) {
                     var option = new Option(row.name, row.id);
                     if(index == 0){
                         option.defaultSelected = true;
                         getTableNames(row.id)
                     }
-                    $('#dbConnectionChoose').append(option);
+                    $('#connectionId').append(option);
                 })
                 layui.form.render("select");
             }

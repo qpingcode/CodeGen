@@ -12,7 +12,7 @@ spring:
       max-request-size: -1
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
