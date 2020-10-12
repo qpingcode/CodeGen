@@ -1,6 +1,5 @@
 package me.qping.utils.codegen.controller;
 
-import me.qping.common.model.AjaxMsg;
 import me.qping.utils.codegen.CodeGenUtil;
 import me.qping.utils.codegen.bean.build.BuildConfig;
 import me.qping.utils.codegen.bean.build.Copyright;
@@ -36,7 +35,7 @@ public class CodeController {
         DBConnection c = dbConnectionDao.findById(connectionId).orElse(null);
 
         if(c == null){
-            return AjaxMsg.fail().setMsg("无法找到该连接");
+            return null;
         }
 
         MetaDataUtil dbutil = null;
