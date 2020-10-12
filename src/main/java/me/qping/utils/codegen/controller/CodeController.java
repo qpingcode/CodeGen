@@ -32,7 +32,7 @@ public class CodeController {
 
     @RequestMapping(value = "/generate", method = RequestMethod.GET, produces ="application/json;charset=UTF-8")
     @ResponseBody
-    public Object generate(Long connectionId, String ignoreTableName, String ignoreColumnName,  String basePackage, String projectPrefix, String tableName, String schemaName, Copyright copyright){
+    public Object generate(Long connectionId, String ignoreTableName, String ignoreColumnName,  String basePackage, String projectNameEn, String tableName, String schemaName, Copyright copyright){
         DBConnection c = dbConnectionDao.findById(connectionId).orElse(null);
 
         if(c == null){
@@ -58,7 +58,7 @@ public class CodeController {
             userParams.put("ignoreTableName", ignoreTableName);
             userParams.put("ignoreColumnName", ignoreColumnName);
             userParams.put("basePackage", basePackage);
-            userParams.put("projectPrefix", projectPrefix);
+            userParams.put("projectNameEn", projectNameEn);
 
             copyright = copyright == null ? new Copyright() : copyright;
             schemaName = schemaName == null ? "springboot-jpa": schemaName;

@@ -48,7 +48,7 @@ public class CodeGenUtil {
 
         // 用户自定义参数
         Map<String,String> userParams = new HashMap<>();
-        userParams.put("projectPrefix", "datatrans");
+        userParams.put("projectNameEn", "datatrans");
         userParams.put("basePackage", "com.rxthinking.datatrans");
 
         // 版权信息
