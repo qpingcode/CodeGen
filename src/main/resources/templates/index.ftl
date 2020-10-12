@@ -1,5 +1,6 @@
 <html>
 <head>
+    <tltle>代码生成工具</tltle>
     <link rel="stylesheet" href="/layui/css/layui.css">
     <style>
         .layui-form-label {
