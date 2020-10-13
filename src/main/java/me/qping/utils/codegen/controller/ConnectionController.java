@@ -1,6 +1,7 @@
 package me.qping.utils.codegen.controller;
 
 import me.qping.common.model.AjaxMsg;
+import me.qping.utils.codegen.bean.constant.WorkerType;
 import me.qping.utils.codegen.bean.h2.DBConnection;
 import me.qping.utils.codegen.dao.DBConnectionDao;
 import me.qping.utils.codegen.util.SnowFlakeId;
@@ -20,7 +21,7 @@ import java.util.List;
 @RequestMapping("/connection")
 public class ConnectionController {
 
-    SnowFlakeId worker = new SnowFlakeId(1, 1, 1);
+    SnowFlakeId worker = new SnowFlakeId( WorkerType.ConnectionId.intValue(), 1, 1);
 
     @Autowired
     DBConnectionDao dbConnectionDao;

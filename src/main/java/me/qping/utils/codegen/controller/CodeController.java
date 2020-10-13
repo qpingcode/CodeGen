@@ -1,6 +1,5 @@
 package me.qping.utils.codegen.controller;
 
-import me.qping.common.model.AjaxMsg;
 import me.qping.utils.codegen.CodeGenUtil;
 import me.qping.utils.codegen.bean.build.BuildConfig;
 import me.qping.utils.codegen.bean.build.Copyright;
@@ -32,11 +31,11 @@ public class CodeController {
 
     @RequestMapping(value = "/generate", method = RequestMethod.GET, produces ="application/json;charset=UTF-8")
     @ResponseBody
-    public Object generate(Long connectionId, String ignoreTableName, String ignoreColumnName,  String basePackage, String projectPrefix, String tableName, String schemaName, Copyright copyright){
+    public Object generate(Long connectionId, String ignoreTableName, String ignoreColumnName,  String basePackage, String projectNameEn, String tableName, String schemaName, Copyright copyright){
         DBConnection c = dbConnectionDao.findById(connectionId).orElse(null);
 
         if(c == null){
-            return AjaxMsg.fail().setMsg("无法找到该连接");
+            return null;
         }
 
         MetaDataUtil dbutil = null;
@@ -58,7 +57,7 @@ public class CodeController {
             userParams.put("ignoreTableName", ignoreTableName);
             userParams.put("ignoreColumnName", ignoreColumnName);
             userParams.put("basePackage", basePackage);
-            userParams.put("projectPrefix", projectPrefix);
+            userParams.put("projectNameEn", projectNameEn);
 
             copyright = copyright == null ? new Copyright() : copyright;
             schemaName = schemaName == null ? "springboot-jpa": schemaName;

@@ -3,6 +3,7 @@ package me.qping.utils.codegen;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import me.qping.utils.codegen.bean.build.*;
+import me.qping.utils.codegen.bean.constant.WorkerType;
 import me.qping.utils.codegen.freemarker.FreemarkerUtil;
 import me.qping.utils.codegen.generator.Condition;
 import me.qping.utils.codegen.generator.lang.Decorator;
@@ -33,7 +34,7 @@ import static me.qping.utils.codegen.bean.build.Template.CONDITION_DEFAULT_PACKA
 @Slf4j
 public class CodeGenUtil {
 
-    static SnowFlakeId worker = new SnowFlakeId(2, 1, 1);
+    static SnowFlakeId worker = new SnowFlakeId(WorkerType.CodeDownloadId.intValue(), 1, 1);
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
 
@@ -48,7 +49,7 @@ public class CodeGenUtil {
 
         // 用户自定义参数
         Map<String,String> userParams = new HashMap<>();
-        userParams.put("projectPrefix", "datatrans");
+        userParams.put("projectNameEn", "datatrans");
         userParams.put("basePackage", "com.rxthinking.datatrans");
 
         // 版权信息

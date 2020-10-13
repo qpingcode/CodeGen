@@ -1,5 +1,6 @@
 <html>
 <head>
+    <tltle>代码生成工具</tltle>
     <link rel="stylesheet" href="/layui/css/layui.css">
     <style>
         .layui-form-label {
@@ -79,7 +80,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">项目英文简写</label>
             <div class="layui-input-inline"  style="width:500px;">
-                <input type="text" name="projectPrefix" id="projectPrefix" value="test" class="layui-input"></input>
+                <input type="text" name="projectNameEn" id="projectNameEn" value="test" class="layui-input"></input>
             </div>
         </div>
 

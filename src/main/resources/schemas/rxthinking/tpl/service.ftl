@@ -35,9 +35,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @Version ${copyright.version!''}
  **/
 @Service
-@ServiceMapping("${params.projectPrefix}_${table.nameWithoutPrefix?uncap_first}")
+@ServiceMapping("${params.projectNameEn}_${table.nameWithoutPrefix?uncap_first}")
 @Api(tags =  "${table.comment!''}")
-@RequestMapping("/api/req/v1/${params.projectPrefix}")
+@RequestMapping("/api/req/v1/${params.projectNameEn}")
 public class ${template.javaName} extends BaseService{
 
     @Autowired
@@ -46,34 +46,34 @@ public class ${template.javaName} extends BaseService{
     public static final String COLUMS_ALLOW = "<#list table.columns as column>${column.camelCase!''}<#if column_has_next>,</#if></#list>";
 
     @ApiOperation(value="查询")
-    @PostMapping(value = "${params.projectPrefix}_${table.nameWithoutPrefix}:findById")
+    @PostMapping(value = "${params.projectNameEn}_${table.nameWithoutPrefix}:findById")
     public ${refs.bean.javaName} findById(@ApiParam("${table.comment!''}主键") Integer id) {
         return ${refs.repository.javaName?uncap_first}.findById(id).orElse(null);
     }
 
     @ApiOperation(value="保存")
-    @PostMapping(value = "${params.projectPrefix}_${table.nameWithoutPrefix}:save")
+    @PostMapping(value = "${params.projectNameEn}_${table.nameWithoutPrefix}:save")
     public boolean save(${refs.bean.javaName} bean) {
         ${refs.repository.javaName?uncap_first}.save(bean);
         return true;
     }
 
     @ApiOperation(value="保存多个")
-    @PostMapping(value = "${params.projectPrefix}_${table.nameWithoutPrefix}:saveAll")
+    @PostMapping(value = "${params.projectNameEn}_${table.nameWithoutPrefix}:saveAll")
     public boolean saveAll(List<${refs.bean.javaName}> list) {
         ${refs.repository.javaName?uncap_first}.saveAll(list);
         return true;
     }
 
     @ApiOperation(value="删除")
-    @PostMapping(value = "${params.projectPrefix}_${table.nameWithoutPrefix}:delete")
+    @PostMapping(value = "${params.projectNameEn}_${table.nameWithoutPrefix}:delete")
     public boolean delete(@ApiParam("${table.comment!''}主键") Integer id) {
         ${refs.repository.javaName?uncap_first}.deleteById(id);
         return true;
     }
 
     @ApiOperation(value="查询列表")
-    @PostMapping(value = "${params.projectPrefix}_${table.nameWithoutPrefix}:findAll")
+    @PostMapping(value = "${params.projectNameEn}_${table.nameWithoutPrefix}:findAll")
     public List<${refs.bean.javaName}> findAll(${refs.beanBO.javaName} bo) {
         // 排序
         Sort sort = createSort(bo.getOrderBy(), COLUMS_ALLOW);
@@ -82,7 +82,7 @@ public class ${template.javaName} extends BaseService{
     }
 
     @ApiOperation(value="查询分页")
-    @PostMapping(value = "${params.projectPrefix}_${table.nameWithoutPrefix}:findPage")
+    @PostMapping(value = "${params.projectNameEn}_${table.nameWithoutPrefix}:findPage")
     public PageData<${refs.bean.javaName}> findPage(${refs.beanBO.javaName} bo, PageBean pageBean) {
         // 排序
         Sort sort = createSort(bo.getOrderBy(), COLUMS_ALLOW);
