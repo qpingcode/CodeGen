@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: codegen
+spec:
+  selector:
+    matchLabels:
+      app: codegen
+  replicas: 1
+  minReadySeconds: 15
+  strategy:
+     type: RollingUpdate
+     rollingUpdate:
+       maxUnavailable: 1
+       maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: codegen
+    spec:
+      containers:
+      - image: dockerdist.bdmd.com/codegen:1.0
+        imagePullPolicy: Always
+        name: codegen
+        resources:
+          limits:
+            memory: 2Gi
+          requests:
+            memory: 100Mi
