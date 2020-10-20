@@ -33,5 +33,4 @@ public class ${template.javaName!''} {
 
     @ApiModelProperty(value = "排序方式, 可选列: <#list table.columns as column>${column.camelCase!''}<#if column_has_next>,</#if></#list>  可选排序: desc,asc; 示例：id asc")
     String orderBy;
-
 }

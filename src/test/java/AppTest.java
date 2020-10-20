@@ -32,7 +32,6 @@ public class AppTest {
 //        conn.setDatabaseName("data_transform");
 //        conn.setUsername("root");
 //        conn.setPassword("rxthinkingmysql");
-//
 //        dbConnectionDao.save(conn);
 
 
