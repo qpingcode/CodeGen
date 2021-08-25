@@ -2,10 +2,8 @@ package me.qping.utils.codegen.controller;
 
 import com.jcraft.jsch.Session;
 import com.mongodb.*;
-import me.qping.common.utils.DateUtil;
 import me.qping.utils.NetUtils;
 import me.qping.utils.codegen.bean.datagrab.FrontEnd;
-import me.qping.utils.codegen.bean.datagrab.KeyVal;
 import me.qping.utils.codegen.bean.datagrab.Row;
 import me.qping.utils.codegen.bean.datagrab.Statis;
 import me.qping.utils.codegen.util.FileUtil;
@@ -17,12 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.*;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 /**
  * @ClassName MongoController
@@ -40,7 +36,7 @@ public class MongoController {
     public Object test() throws ParseException {
 
         ExcelUtil excelUtil = new ExcelUtil().firstHeader(true).sheetNo(0);
-        InputStream inputStream = this.getClass().getResourceAsStream("/医院部署列表.xlsx");
+        InputStream inputStream = this.getClass().getResourceAsStream("/医院部署列表2.xlsx");
         List<FrontEnd> list = excelUtil.read(FrontEnd.class, inputStream);
 
 
@@ -105,7 +101,7 @@ public class MongoController {
     public Object get() throws ParseException {
 
         ExcelUtil excelUtil = new ExcelUtil().firstHeader(true).sheetNo(0);
-        InputStream inputStream = this.getClass().getResourceAsStream("/医院部署列表.xlsx");
+        InputStream inputStream = this.getClass().getResourceAsStream("/医院部署列表2.xlsx");
         List<FrontEnd> list = excelUtil.read(FrontEnd.class, inputStream);
 
         FileUtil fileUtil = FileUtil.open("/Users/qping/Desktop/data/trans.txt");
